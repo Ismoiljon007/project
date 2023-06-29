@@ -35,14 +35,18 @@ export const useStore = defineStore("store", () => {
     );
   };
   async function getPosts() {
-    const num = localStorage.getItem("limitPost")
-      ? localStorage.getItem("limitPost")
-      : limitPost.value;
-    const n = num > 9 ? num : 10;
-    const data = await $fetch(
-      "https://jsonplaceholder.typicode.com/posts?_start=0&_limit=" + n
-    );
-    posts.value = data;
+    if (localStorage.getItem("limitPost")) {
+      const n = localStorage.getItem("limitPost") > 9 ? localStorage.getItem("limitPost") : 10;
+      const data = await $fetch(
+        "https://jsonplaceholder.typicode.com/posts?_start=0&_limit=" + n
+      );
+      posts.value = data;
+    } else {
+      const data = await $fetch(
+        "https://jsonplaceholder.typicode.com/posts?_start=0&_limit=" + 10
+      );
+      posts.value = data;
+    }
   }
 
   async function getUsers() {
