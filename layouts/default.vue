@@ -7,13 +7,13 @@
                     <NuxtLink to="/">Посты</NuxtLink>
                 </li>
                 <li>
-                    <NuxtLink to="/">Фото</NuxtLink>
+                    <NuxtLink to="/albums">Фото</NuxtLink>
                 </li>
                 <li>
-                    <NuxtLink to="/">Задачи</NuxtLink>
+                    <NuxtLink to="/todos">Задачи</NuxtLink>
                 </li>
                 <li>
-                    <NuxtLink to="/save">Избранное {{ store.savePosts.length }}</NuxtLink>
+                    <NuxtLink to="/save">Избранное {{ store.savePosts.length + store.saveAlbum.length}}</NuxtLink>
                 </li>
             </ul>
         </div>

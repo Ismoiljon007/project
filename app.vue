@@ -10,5 +10,8 @@ onMounted(()=> {
   if(localStorage.getItem('savePosts')) {
     store.savePosts = JSON.parse(localStorage.getItem('savePosts'))
   }
+  if(localStorage.getItem('saveAlbums')) {
+    store.saveAlbum = JSON.parse(localStorage.getItem('saveAlbums'))
+  }
 })
 </script>

@@ -1,11 +1,10 @@
 <template>
     <div class="post">
-        <button class="save-post">
-
-        </button>
         <transition name="modal">
             <succes-modal v-if="store.succesModal" :content="store.succesContent" />
         </transition>
+        <button class="filter p-2 border-2 border-black rounded" @click="fillterPost()"><img width="26" height="30" src="@/assets/filter.svg" alt=""></button>
+        
         <transition name="modal">
             <request-modal v-if="store.requestModalAny" @remove="store.removeAllPost"/>
         </transition>
@@ -23,6 +22,9 @@
                     <line class="cls-1" x1="19" x2="19" y1="12" y2="22" />
                 </g>
             </svg>
+        </button>
+        <button class="save-posts" v-if="store.allAlbums.length" @click="store.savePost()">
+            <img src="@/assets/save.svg" alt="">
         </button>
         <div class="container">
             <h2 class="post-title">Posts</h2>
@@ -66,9 +68,20 @@
 import { useStore } from "~~/store/store"
 const store = useStore()
 store.getPosts()
+function fillterPost() {
+    store.posts.sort(function (a, b) {
+        if (a.title < b.title) {
+            return -1;
+        }
+        if (a.title > b.title) {
+            return 1;
+        }
+        return 0;
+    })
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .cls-1 {
     fill: none;
     stroke: #fff;
@@ -89,4 +102,5 @@ store.getPosts()
     transition: all 0.5s ease;
     transform: translate(-50%, -50%) scale(0.8);
 }
+
 </style>

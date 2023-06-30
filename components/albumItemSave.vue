@@ -19,10 +19,6 @@
             </div>
         </div>
         <div class="post-item-btns flex gap-3 ">
-            <button class="cursor-pointer delete-button"
-                @click="store.albumId = item.id, store.requestModal = true, store.overlay = true">
-                <img src="@/assets/delete.svg" alt="">
-            </button>
             <button class="cursor-pointer save-button mr-auto" @click="store.albumId = item.id, saveAlbum()"
                 :class="saveAlbumId ? 'save-button-active' : ''">
                 <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
@@ -41,11 +37,15 @@
 <script setup>
 import { useStore } from "~~/store/store"
 const store = useStore()
+const emit = defineEmits(['getSave'])
 const { item } = defineProps(['item'])
 const user = ref([])
 const album = ref([])
 const albumUser = ref()
 store.getUsers()
+function getSave() {
+    emit('getSave')
+}
 const saveAlbumId = computed(()=> {
    const id = store.saveAlbum.find(el => el === item.id)
    return id
@@ -80,7 +80,7 @@ function saveAlbum() {
         store.saveAlbum.push(item.id);
         localStorage.setItem('saveAlbums', JSON.stringify(store.saveAlbum))
     }
-
+    getSave()
 }
 
 onMounted(() => {

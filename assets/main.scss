@@ -85,14 +85,8 @@ header {
     padding: 100px 0;
     &-wrapper {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr ;
         gap: 20px;
-        @include media(1100px) {
-            grid-template-columns: 1fr 1fr;
-        }
-        @include media(730px) {
-            grid-template-columns: 1fr;
-        }
     }
     &-title {
         font-weight: 600;
@@ -434,4 +428,46 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.save-posts{
+  position: fixed;
+  top: 350px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.album-details__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  @include media(1160px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include media(850px) {
+    grid-template-columns: 1fr;
+  }
+}
+.album-details__item {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  gap: 20px;
+  &-img {
+      width: 150px;
+      height: 150px;
+      flex-shrink: 0;
+      @include media(470px) {
+        width: 120px;
+        height: 120px;
+      }
+      img {
+          border-radius: 8px;
+          width: 100%;
+          height: 100%;
+      }
+  }
 }

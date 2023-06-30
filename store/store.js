@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useStore = defineStore("store", () => {
   const savePosts = ref([]);
+  const saveAlbum = ref([]);
   const limitPost = ref(10);
   const posts = ref(null);
   const users = ref(null);
@@ -16,6 +17,7 @@ export const useStore = defineStore("store", () => {
     );
     posts.value = data;
   }
+  const albumId = ref(null);
   const succesModal = ref(false);
   const succesContent = ref("");
   const postTitle = ref();
@@ -24,6 +26,8 @@ export const useStore = defineStore("store", () => {
   const requestModal = ref(false);
   const requestModalAny = ref(false);
   const allPost = ref([]);
+  const allAlbums = ref([]);
+  const allAlbumsSave = ref([]);
   const removeAllPost = () => {
     allPost.value.forEach((el) => {
       el.remove();
@@ -34,9 +38,22 @@ export const useStore = defineStore("store", () => {
       document.querySelectorAll(".post-item").length
     );
   };
+  const removeAllAlbums = () => {
+    allAlbums.value.forEach((el) => {
+      el.remove();
+      allAlbums.value = [];
+    });
+    localStorage.setItem(
+      "limitAlbums",
+      document.querySelectorAll(".album-item").length
+    );
+  };
   async function getPosts() {
     if (localStorage.getItem("limitPost")) {
-      const n = localStorage.getItem("limitPost") > 9 ? localStorage.getItem("limitPost") : 10;
+      const n =
+        localStorage.getItem("limitPost") > 9
+          ? localStorage.getItem("limitPost")
+          : 10;
       const data = await $fetch(
         "https://jsonplaceholder.typicode.com/posts?_start=0&_limit=" + n
       );
@@ -58,6 +75,12 @@ export const useStore = defineStore("store", () => {
     const item = posts.value.find((el) => el.id === postId.value);
     if (item !== undefined) {
       posts.value = posts.value.filter((elem) => elem.id !== postId.value);
+    }
+  }
+  async function deleteAlbum() {
+    const item = albums.value.find((el) => el.id === albumId.value);
+    if (item !== undefined) {
+      albums.value = albums.value.filter((elem) => elem.id !== albumId.value);
     }
   }
   async function edit() {
@@ -96,7 +119,49 @@ export const useStore = defineStore("store", () => {
     );
     albums.value = data;
   }
+  getAlbums();
+  const allPostSave = ref([]);
+  function savePost() {
+    allPostSave.value.forEach((item) => {
+      if (savePosts.value.length != 0) {
+        const elem = savePosts.value.find((el) => el == item);
+        if (elem == undefined) {
+          savePosts.value.push(item);
+        }
+        localStorage.setItem("savePosts", JSON.stringify(savePosts.value));
+      } else {
+        savePosts.value.push(item);
+        localStorage.setItem("savePosts", JSON.stringify(savePosts.value));
+      }
+    });
+  }
+  function saveAlbums() {
+    allAlbumsSave.value.forEach((item) => {
+      if (saveAlbum.value.length != 0) {
+        const elem = saveAlbum.value.find((el) => el == item);
+        console.log(item);
+
+        if (elem == undefined) {
+          saveAlbum.value.push(item);
+          console.log(item);
+        }
+        localStorage.setItem("saveAlbums", JSON.stringify(saveAlbum.value));
+      } else {
+        saveAlbum.value.push(item);
+        localStorage.setItem("saveAlbums", JSON.stringify(saveAlbum.value));
+      }
+    });
+  }
   return {
+    allAlbumsSave,
+    saveAlbums,
+    allPostSave,
+    savePost,
+    removeAllAlbums,
+    albumId,
+    deleteAlbum,
+    allAlbums,
+    saveAlbum,
     savePosts,
     requestModalAny,
     succesModal,
